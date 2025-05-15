@@ -3,7 +3,7 @@
 document.addEventListener("DOMContentLoaded", function () {
   // M A N E J O   D E   A P I
 
-  //1. Hacer una petición a la API de películas
+  //1. Hacer una petición a la API de películas async/await
 
   const getPeliculas = async () => {
     let respuesta = await fetch(
@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", function () {
   };
   getPeliculas();
 
-  //2. Mostrar las peliculas en consola
+  //2. Mostrar las peliculas en consola y verifico que todo este ok
   // como mi resultado proviene de una promesas, tengo que usar siempre el async/await para obtener los datos
   const menu = async () => {
     const peliculas = await getPeliculas(); // Esperar los datos
@@ -36,7 +36,9 @@ document.addEventListener("DOMContentLoaded", function () {
     let cartelera = document.getElementById("carteleraPeliculas");
     let tarjetaPeliculas = "";
 
-    peliculas.forEach((pelicula, index) => {
+    peliculas.slice(0, 12).forEach((pelicula, index) => {
+      //uso el .slice para que solo me muestre 8 pelis de 20
+      //uso un forEach para recorrer el array de películas del index
       tarjetaPeliculas += `<div class="peliculas">
       <img src= "https://image.tmdb.org/t/p/w500/${pelicula.poster_path}" alt="${pelicula.title}"> 
       <p class =" tituloPelicula mt-2"> ${pelicula.title}</p>
@@ -44,51 +46,54 @@ document.addEventListener("DOMContentLoaded", function () {
       </div>`;
     });
     cartelera.innerHTML = tarjetaPeliculas;
-    //4. Agrego evento a los botones, ejemplo de usar una librería externa
+    //4. Agrego evento a los botones, ejemplo de usar una librería externa en este caso SweetAlert
     document.querySelectorAll(".btnComprar").forEach((boton) => {
       boton.addEventListener("click", () => {
-        Swal.fire("Inicia Sesión antes de comprar!");
+        Swal.fire({
+          title: "Inicia Sesión antes de continuar",
+          icon: "info",
+        });
       });
     });
   };
 
   mostrarPeliculas();
 });
-// 1. Objeto usuario para guardar nombre y apellido
-//   const usuario = {
-//     nombre: "",
-//     apellido: "",
-//   };
+//5. Objeto usuario para guardar nombre y apellido
+const usuario = {
+  nombre: "",
+  apellido: "",
+};
 
-//   // 3. guardar nombre y usuario con datos desde el formulario
-//   let guardarUsuario = document.getElementById("btnGuardar");
-//   guardarUsuario.addEventListener("click", (event) => {
-//     event.preventDefault(); // detiene el reinicio de la pág cuando presione el botón guardar
+// 6. Guardar nombre y usuario con datos desde el formulario
+let guardarUsuario = document.getElementById("btnGuardar");
+guardarUsuario.addEventListener("click", (event) => {
+  event.preventDefault(); // detiene el reinicio de la pág cuando presione el botón guardar
 
-//     const nombre = document.getElementById("nombre").value.trim(); // el trim elimina si hay espacios en blanco
-//     const apellido = document.getElementById("apellido").value.trim();
+  const nombre = document.getElementById("nombre").value.trim(); //capturo el valor del input y lo guardo en la var
+  const apellido = document.getElementById("apellido").value.trim(); // el trim elimina si hay espacios en blanco
 
-//     // esto para validar que los campos no los guarde vacíos
-//     if (!nombre || !apellido) {
-//       alert("Por favor, completa ambos campos antes de continuar.");
-//       return;
-//     }
+  // esto para validar que los campos no los guarde vacíos
+  if (!nombre || !apellido) {
+    alert("Por favor, completa ambos campos antes de continuar.");
+    return;
+  }
 
-//     usuario.nombre = nombre;
-//     usuario.apellido = apellido;
-//     console.log(usuario); // verifico que se guarde correctamente los datos
+  usuario.nombre = nombre;
+  usuario.apellido = apellido;
+  console.log(usuario); // verifico que se guarde correctamente los datos
 
-//     sessionStorage.setItem("nombre", usuario.nombre); //guardo los datos en el sessionStorage
-//     const nombreGuardado = sessionStorage.getItem("nombre"); // recupero los datos
+  sessionStorage.setItem("nombre", usuario.nombre); //guardo los datos en el sessionStorage
+  const nombreGuardado = sessionStorage.getItem("nombre"); // recupero los datos
 
-//     if (nombreGuardado) {
-//       // si recupero datos del formulario y los guardo, muestro un saludo
-//       const saludo = document.getElementById("saludo");
-//       saludo.innerText = `Hola, ${nombreGuardado}. ¡Elige tu película! 🎬`;
-//     }
-//   });
+  if (nombreGuardado) {
+    // si recupero datos del formulario y los guardo, muestro un saludo
+    const saludo = document.getElementById("saludo");
+    saludo.innerText = `Hola, ${nombreGuardado}. `;
+  }
+});
 
-//   // 4. Mostrar tarjetas de películas
+// 7. Mostrar tarjetas de películas  -¡Elige tu película! 🎬-
 //   let cartelera = document.getElementById("cartelera");
 //   let tarjetaPeliculas = "";
 
@@ -104,27 +109,27 @@ document.addEventListener("DOMContentLoaded", function () {
 //   });
 //   cartelera.innerHTML = tarjetaPeliculas;
 
-//   // 5. Eventos para los botones de "Comprar"
-//   let compraFinal = document.getElementById("compraFinal");
-//   let carritoPeli = [];
+// 7. Eventos para los botones de "Comprar"
+// let compraFinal = document.getElementById("compraFinal");
+// let carritoPeli = [];
 
-//   document.getElementById("cartelera").addEventListener("click", (e) => {
-//     if (e.target.classList.contains("btn")) {
-//       // Validar si el usuario ha ingresado su nombre
-//       if (!usuario.nombre.trim()) {
-//         alert("Por favor, ingresa tu nombre antes de elegir una película.");
-//         return;
-//       }
-
-//       const index = parseInt(e.target.getAttribute("data-index"));
-//       const peliSeleccionada = peliculas[index];
-
-//       if (peliSeleccionada) {
-//         carritoPeli.push(peliSeleccionada);
-//         actualizarResumen();
-//       }
+// document.getElementById("cartelera").addEventListener("click", (e) => {
+//   if (e.target.classList.contains("btn")) {
+//     // Validar si el usuario ha ingresado su nombre
+//     if (!usuario.nombre.trim()) {
+//       alert("Por favor, ingresa tu nombre antes de elegir una película.");
+//       return;
 //     }
-//   });
+
+//     const index = parseInt(e.target.getAttribute("data-index"));
+//     const peliSeleccionada = peliculas[index];
+
+//     if (peliSeleccionada) {
+//       carritoPeli.push(peliSeleccionada);
+//       actualizarResumen();
+//     }
+//   }
+// });
 
 //   // 6. Mostrar resumen de compra paso a paso
 

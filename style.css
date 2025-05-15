@@ -24,6 +24,11 @@ a {
     color: white;
 }
 
+hr {
+    width: 97vw;
+    margin: 10px;
+}
+
 .menu {
     width: 90%;
     margin: 10px;
@@ -54,6 +59,10 @@ a {
     padding: 0.5em;
     /* color: forestgreen; */
     font-size: 1.5rem;
+}
+
+.saludo {
+    font-size: 1.8em;
 }
 
 .cartelera {
@@ -95,11 +104,19 @@ a {
     font-size: 1.5rem;
 }
 
-.btnComprar {
+.btnComprar,
+.btnSesion,
+.btnGuardar {
     background-color: orangered;
 }
 
-/*
+.login,
+.resultado {
+    width: 97vw;
+    margin: 15px;
+    text-align: center;
+}
+
 .formulario {
     margin: 1.5em;
     padding: 0.5em;
@@ -114,6 +131,7 @@ a {
     font-size: 1.5em;
 }
 
+/*
 .contenedorCartelera {
     margin: 1.5em;
     display: flex;
@@ -122,9 +140,6 @@ a {
 
 
 .carteleraTitle,
-.saludo {
-    font-size: 1.8em;
-}
 
 .cardPeli {
     width: 190px;
