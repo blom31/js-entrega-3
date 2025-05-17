@@ -19,6 +19,10 @@ h2 {
     /* color: darkgoldenrod; */
 }
 
+h3 {
+    color: green;
+}
+
 a {
     text-decoration: none;
     color: white;
@@ -106,7 +110,8 @@ hr {
 
 .btnComprar,
 .btnSesion,
-.btnGuardar {
+.btnGuardar,
+.btnPagar {
     background-color: orangered;
 }
 
@@ -129,6 +134,22 @@ hr {
 
 .formulario p {
     font-size: 1.5em;
+}
+
+.compraFinal {}
+
+.resumen {
+    font-size: 1.3rem;
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    flex-direction: column;
+}
+
+.resumen ul {
+    list-style: none;
+    padding: 0.5em;
+    text-align: left;
 }
 
 /*
@@ -165,8 +186,4 @@ hr {
 .resumen ul {
     list-style: none;
     padding: 0.5em;
-}
-
-.btn {
-    background-color: rgb(92, 183, 69);
 }
