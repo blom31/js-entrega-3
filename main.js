@@ -3,16 +3,18 @@
 document.addEventListener("DOMContentLoaded", function () {
   if (document.body.id === "index") {
     // Variable Global de pelicula para utilizarla en cualquir parte del código
-
     let peliculasGuardadas = []; // Almacenar las películas de la API
 
-    //2. Declaro el Objeto usuario para guardar nombre y apellido en la SessionStorage
+    // Declaro el Objeto usuario para guardar nombre y apellido en la SessionStorage
     const usuario = {
       nombre: "",
       apellido: "",
     };
+
+    // Declaro el carrito de compras para guardar las películas seleccionadas
     let carritoPeli = [];
     let compraFinal = document.getElementById("compraFinal");
+
     // Al cargar la página, revisar si hay un nombre guardado en sessionStorage
     const nombreGuardado = sessionStorage.getItem("nombre");
     const apellidoGuardado = sessionStorage.getItem("apellido");
@@ -25,7 +27,7 @@ document.addEventListener("DOMContentLoaded", function () {
       saludo.innerText = `Hola, ${usuario.nombre}. `;
     }
 
-    //1. Hacer una petición a la API de películas async/await
+    // Hacer una petición a la API de películas async/await
 
     const getPeliculas = async () => {
       let respuesta = await fetch(
@@ -33,31 +35,32 @@ document.addEventListener("DOMContentLoaded", function () {
       );
       const peliculas = await respuesta.json(); //convierto la respuesta en un archivo disponible para js
       // guardo las películas en la variable
-      // Agregar propiedades aleatorias
+
+      // Agregar propiedades aleatorias  como precio y horario ya que la API original no lo trae
       peliculasGuardadas = peliculas.results.map((pelicula) => ({
         ...pelicula,
-        precio: generarPrecioAleatorio(),
-        hora: generarHorarioAleatorio(),
+        precio: generarPrecio(),
+        hora: generarHorario(),
       }));
       console.log(peliculasGuardadas); //verifico que se guarden correctamente
 
       return peliculasGuardadas; // Devolvemos el array de películas
     };
-    function generarPrecioAleatorio() {
+    function generarPrecio() {
       const precios = [1500, 1800, 2000, 2200, 2500]; // precios posibles
       const indice = Math.floor(Math.random() * precios.length);
       return precios[indice];
     }
 
-    function generarHorarioAleatorio() {
-      const horarios = ["14:00", "16:30", "19:00", "21:15", "23:00"];
+    function generarHorario() {
+      const horarios = ["14:00", "16:30", "19:00", "21:15", "23:00"]; // horarios posibles
       const indice = Math.floor(Math.random() * horarios.length);
       return horarios[indice];
     }
 
     // M A N E J O   D E   E V E N T O S  D E S D E   E L  D O M
 
-    //3. Mostrar las películas en el HTML
+    // Mostrar las películas en el HTML
 
     const mostrarPeliculas = () => {
       let cartelera = document.getElementById("carteleraPeliculas");
@@ -79,7 +82,7 @@ document.addEventListener("DOMContentLoaded", function () {
       mostrarPeliculas();
     });
 
-    // 6. Guardar nombre y usuario con datos desde el formulario
+    // Guardar nombre y usuario con datos desde el formulario
     let guardarUsuario = document.getElementById("btnGuardar");
     guardarUsuario.addEventListener("click", (event) => {
       event.preventDefault(); // detiene el reinicio de la pág cuando presione el botón guardar
@@ -107,18 +110,23 @@ document.addEventListener("DOMContentLoaded", function () {
         // si recupero datos del formulario y los guardo, muestro un saludo
         const saludo = document.getElementById("saludo");
         saludo.innerText = `Hola, ${nombreGuardado}. `;
+
+        window.scrollTo({
+          //esto es para desplazarme al top de la pag.
+          top: 0,
+        });
       }
     });
 
-    //7. Eventos para los botones de "Comprar"
+    // Eventos para los botones de "Comprar"
 
     document
       .getElementById("carteleraPeliculas")
       .addEventListener("click", (e) => {
         if (e.target.classList.contains("btnComprar")) {
           //selecciono los botones de compra
-          // Validar si el usuario ha ingresado su nombre
 
+          // Validar si el usuario ha ingresado su nombre
           if (!usuario.nombre.trim()) {
             Swal.fire({
               title: "Inicia Sesión antes de continuar",
@@ -131,35 +139,12 @@ document.addEventListener("DOMContentLoaded", function () {
           const peliSeleccionada = peliculasGuardadas[index];
 
           if (peliSeleccionada) {
-            carritoPeli.push(peliSeleccionada);
+            carritoPeli.push(peliSeleccionada); //voy agregando peliculas al carrito
             actualizarResumen();
           }
         }
       });
     console.log(carritoPeli); //verifico que el carrito se esté llenando
-
-    //   // 6. Mostrar resumen de compra paso a paso
-
-    //   // function actualizarResumen() {
-    //   //   let total = 0;
-    //   //   for (let i = 0; i < carritoPeli.length; i++) {
-    //   //     const pelicula = carritoPeli[i];
-    //   //     total = total + pelicula.precio;
-    //   //   }
-    //   //   let listaPeliculas = "";
-    //   //   for (let i = 0; i < carritoPeli.length; i++) {
-    //   //     const pelicula = carritoPeli[i];
-    //   //     const elementoLista = `<li>${pelicula.nombre} - $${pelicula.precio}</li>`;
-    //   //     listaPeliculas = listaPeliculas + elementoLista;
-    //   //   }
-    //   //   const resumenHTML = ` <div class="resumen">
-    //   //                         <p>Resumen de Compra</p>
-    //   //                         <p>Nombre: ${usuario.nombre}</p>
-    //   //                         <ul>${listaPeliculas}</ul>
-    //   //                         <p><strong>Total: $${total}</strong></p>
-    //   //                       </div> `;
-    //   //   compraFinal.innerHTML = resumenHTML;
-    //   // }
 
     // 6. Mostrar resumen de compra optimizada con metodos como reduce y map
     function actualizarResumen() {
@@ -178,13 +163,13 @@ document.addEventListener("DOMContentLoaded", function () {
         )
         .join(""); // el join une los elementos del array en un string
       const resumenHTML = ` <div class="resumen">
-    <p>Resumen de Compra</p>
-    <p>Nombre: ${usuario.nombre} ${usuario.apellido}</p>
+      <p>Nombre: ${usuario.nombre} ${usuario.apellido}</p>
     <ul>${listaPeliculas}</ul>
     <p><strong>Total: $${total}</strong></p>
-    <button id="btnFinalizar" class="btnPagar">Finalizar Compra</button>
+    <button id="btnFinalizar" class="btnFinalizar">Finalizar Compra</button>
     </div> `;
       compraFinal.innerHTML = resumenHTML;
+
       // Agregar el event listener justo después de insertar el HTML
       const btnPagar = document.getElementById("btnFinalizar");
       if (btnPagar) {
@@ -197,7 +182,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
   if (document.body.id === "factura") {
-    console.log("hola");
+    console.log("hola"); // con esto verifico que se cargue el codigo de js en la  pagina "factura"
     const usuario = JSON.parse(sessionStorage.getItem("usuario")) || {};
     const compra = JSON.parse(sessionStorage.getItem("compraFinal")) || [];
     console.log(usuario);
@@ -206,22 +191,24 @@ document.addEventListener("DOMContentLoaded", function () {
     const ticket = document.getElementById("ticket");
 
     if (compra.length === 0) {
-      ticket.innerHTML = `<h1> No hay peliculas en el carrito</h1>`;
+      ticket.innerHTML = `<h1> No hay películas en el carrito</h1>`;
       return;
     }
-    const listaHTML = compra
+    const listaHTML = compra // creo otro array con los datos de la peliculas en el carrito
       .map((peli) => `<li>${peli.title} - ${peli.hora} - $${peli.precio}</li>`)
       .join("");
 
-    const total = compra.reduce((acc, peli) => acc + peli.precio, 0);
+    const total = compra.reduce((acc, peli) => acc + peli.precio, 0); // calculo el total de la compra
     ticket.innerHTML = `
-    <h2>Factura</h2>
+    <h2>Ticket</h2>
     <p>Nombre: ${usuario.nombre} ${usuario.apellido}</p>
-    <ul>${listaHTML}</ul>
+    <ul class="listaTicket">${listaHTML}</ul>
     <p><strong>Total: $${total}</strong></p>
-    <button id="pagarBtn">Pagar</button>
-    <button id="cancelarBtn">Cancelar</button>
-  `;
+    <div class="btns">
+      <button id="pagarBtn" class="btnPagar">Pagar</button>
+      <button id="cancelarBtn" class="btnCancelar">Cancelar</button>
+    </div>
+    `;
     document.getElementById("pagarBtn").addEventListener("click", () => {
       Swal.fire("¡Compra realizada!", "Gracias por tu compra", "success").then(
         () => {
