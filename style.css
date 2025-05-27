@@ -116,13 +116,11 @@ hr {
     font-size: 1.5rem;
 }
 
-.btnComprar,
-.btnSesion,
-.btnFinalizar {
+.btnComprar {
     width: 100px;
     background-color: orangered;
     color: white;
-    border-radius: 5px;
+    border-radius: 10px;
     font-size: 1.2rem;
 }
 
@@ -130,9 +128,15 @@ hr {
     width: 100px;
     background-color: rgb(24, 208, 24);
     color: white;
-    border-radius: 5px;
+    border-radius: 10px;
     font-size: 1.2rem;
     cursor: pointer;
+}
+
+.btnFinalizar {
+    width: 150px;
+    border-radius: 10px;
+    background-color: rgb(230, 204, 11);
 }
 
 .contenedor {
@@ -148,7 +152,7 @@ hr {
     text-align: center;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
 }
 
 .formulario {
@@ -172,6 +176,7 @@ hr {
     justify-content: center;
     align-items: start;
     flex-direction: column;
+    margin-left: 3em;
 }
 
 .resumen ul {
@@ -187,6 +192,7 @@ hr {
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    height: 60vh;
 }
 
 .ticket {
@@ -218,4 +224,12 @@ hr {
     color: white;
     border-radius: 5px;
     font-size: 1.2rem;
+}
+
+footer {
+    height: 2em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
 }

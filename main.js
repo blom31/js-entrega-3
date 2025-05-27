@@ -13,6 +13,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Declaro el carrito de compras para guardar las películas seleccionadas
     let carritoPeli = [];
+
     let compraFinal = document.getElementById("compraFinal");
 
     // Al cargar la página, revisar si hay un nombre guardado en sessionStorage
@@ -30,22 +31,31 @@ document.addEventListener("DOMContentLoaded", function () {
     // Hacer una petición a la API de películas async/await
 
     const getPeliculas = async () => {
-      let respuesta = await fetch(
-        "https://api.themoviedb.org/3/movie/popular?api_key=a36a0107dd6b1ea8569d698315062324"
-      );
-      const peliculas = await respuesta.json(); //convierto la respuesta en un archivo disponible para js
-      // guardo las películas en la variable
+      try {
+        //agrego el try/catch para el manejo de errores
+        let respuesta = await fetch(
+          "https://api.themoviedb.org/3/movie/popular?api_key=a36a0107dd6b1ea8569d698315062324"
+        );
 
-      // Agregar propiedades aleatorias  como precio y horario ya que la API original no lo trae
-      peliculasGuardadas = peliculas.results.map((pelicula) => ({
-        ...pelicula,
-        precio: generarPrecio(),
-        hora: generarHorario(),
-      }));
-      console.log(peliculasGuardadas); //verifico que se guarden correctamente
+        if (!respuesta.ok) {
+          throw new Error("Error al obtener películas");
+        }
 
-      return peliculasGuardadas; // Devolvemos el array de películas
+        const peliculas = await respuesta.json();
+
+        peliculasGuardadas = peliculas.results.map((pelicula) => ({
+          ...pelicula,
+          precio: generarPrecio(),
+          hora: generarHorario(),
+        }));
+
+        return peliculasGuardadas;
+      } catch (error) {
+        console.error("Fallo en la API:", error);
+        Swal.fire("Error", "No se pudieron cargar las películas", "error");
+      }
     };
+
     function generarPrecio() {
       const precios = [1500, 1800, 2000, 2200, 2500]; // precios posibles
       const indice = Math.floor(Math.random() * precios.length);
@@ -146,7 +156,7 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     console.log(carritoPeli); //verifico que el carrito se esté llenando
 
-    // 6. Mostrar resumen de compra optimizada con metodos como reduce y map
+    // Mostrar resumen de compra optimizada con metodos como reduce y map
     function actualizarResumen() {
       const total = carritoPeli.reduce(
         //el reduce sustituye el ciclo for. la const total guardará la suma de los precios
@@ -164,11 +174,12 @@ document.addEventListener("DOMContentLoaded", function () {
         .join(""); // el join une los elementos del array en un string
       const resumenHTML = ` <div class="resumen">
       <p>Nombre: ${usuario.nombre} ${usuario.apellido}</p>
-    <ul>${listaPeliculas}</ul>
-    <p><strong>Total: $${total}</strong></p>
-    <button id="btnFinalizar" class="btnFinalizar">Finalizar Compra</button>
-    </div> `;
+      <ul>${listaPeliculas}</ul>
+      <p><strong>Total: $${total}</strong></p>
+      <button id="btnFinalizar" class="btnFinalizar">Finalizar Compra</button>
+      </div> `;
       compraFinal.innerHTML = resumenHTML;
+      localStorage.setItem("carritoPeli", JSON.stringify(carritoPeli));
 
       // Agregar el event listener justo después de insertar el HTML
       const btnPagar = document.getElementById("btnFinalizar");
@@ -191,7 +202,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const ticket = document.getElementById("ticket");
 
     if (compra.length === 0) {
-      ticket.innerHTML = `<h1> No hay películas en el carrito</h1>`;
+      ticket.innerHTML = `<h3> No hay películas en el carrito</h3>`;
       return;
     }
     const listaHTML = compra // creo otro array con los datos de la peliculas en el carrito
