@@ -97,10 +97,12 @@ document.addEventListener("DOMContentLoaded", function () {
     const loader = document.getElementById("loaderPeliculas");
     loader.style.display = "block"; // Mostrar spinner
 
-    getPeliculas().then(() => {
-      mostrarPeliculas();
-      loader.style.display = "none"; // Ocultar spinner
-    });
+    setTimeout(() => {
+      getPeliculas().then(() => {
+        mostrarPeliculas();
+        loader.style.display = "none"; // Ocultar spinner después de 1 segundo
+      });
+    }, 1000); // Esperar 1 segundo antes de cargar las películas
 
     // Guardar nombre y usuario con datos desde el formulario
     let guardarUsuario = document.getElementById("btnGuardar");
