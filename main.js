@@ -27,6 +27,12 @@ document.addEventListener("DOMContentLoaded", function () {
       const saludo = document.getElementById("saludo");
       saludo.innerText = `Hola, ${usuario.nombre}. `;
     }
+    // Recuperar carrito del localStorage
+    const carritoGuardado = localStorage.getItem("carritoPeli");
+    if (carritoGuardado) {
+      carritoPeli = JSON.parse(carritoGuardado);
+      actualizarResumen();
+    }
 
     // Hacer una petición a la API de películas async/await
 
@@ -88,8 +94,12 @@ document.addEventListener("DOMContentLoaded", function () {
       cartelera.innerHTML = tarjetaPeliculas;
     };
 
+    const loader = document.getElementById("loaderPeliculas");
+    loader.style.display = "block"; // Mostrar spinner
+
     getPeliculas().then(() => {
       mostrarPeliculas();
+      loader.style.display = "none"; // Ocultar spinner
     });
 
     // Guardar nombre y usuario con datos desde el formulario
@@ -187,7 +197,7 @@ document.addEventListener("DOMContentLoaded", function () {
         btnPagar.addEventListener("click", () => {
           sessionStorage.setItem("compraFinal", JSON.stringify(carritoPeli));
           sessionStorage.setItem("usuario", JSON.stringify(usuario));
-          window.location.href = "/pages/factura.html";
+          window.location.href = "./pages/factura.html";
         });
       }
     }
@@ -224,6 +234,7 @@ document.addEventListener("DOMContentLoaded", function () {
       Swal.fire("¡Compra realizada!", "Gracias por tu compra", "success").then(
         () => {
           sessionStorage.clear();
+          localStorage.removeItem("carritoPeli"); // limpia el carrito guardado
           window.location.href = "../index.html";
         }
       );
@@ -239,6 +250,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }).then((result) => {
         if (result.isConfirmed) {
           sessionStorage.clear();
+          localStorage.removeItem("carritoPeli"); // limpia el carrito guardado
           window.location.href = "../index.html";
         }
       });
