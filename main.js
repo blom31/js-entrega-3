@@ -50,7 +50,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const peliculas = await respuesta.json();
 
         peliculasGuardadas = peliculas.results.map((pelicula) => ({
-          ...pelicula,
+          ...pelicula, //uso funciones para asignar nuevas propiedades como precio  y hora que la Api por defeto no trae
           precio: generarPrecio(),
           hora: generarHorario(),
         }));
@@ -86,10 +86,11 @@ document.addEventListener("DOMContentLoaded", function () {
         //uso el .slice para que solo me muestre 12 pelis de 20
         //uso un forEach para recorrer el array de películas del index
         tarjetaPeliculas += `<div class="peliculas">
-      <img src= "https://image.tmdb.org/t/p/w500/${pelicula.poster_path}" alt="${pelicula.title}"> 
-      <p class =" tituloPelicula mt-2"> ${pelicula.title}</p>
-      <button class ="btnComprar" data-index="${index}">Comprar</button>
-      </div>`;
+  <img src= "https://image.tmdb.org/t/p/w500/${pelicula.poster_path}" alt="${pelicula.title}"> 
+  <p class="tituloPelicula mt-2">${pelicula.title}</p>
+  <span class="estrella" data-id="${pelicula.id}" style="cursor:pointer;">⭐</span>
+  <button class="btnComprar ms-5" data-index="${index}">Comprar</button>
+</div>`;
       });
       cartelera.innerHTML = tarjetaPeliculas;
     };
@@ -100,9 +101,9 @@ document.addEventListener("DOMContentLoaded", function () {
     setTimeout(() => {
       getPeliculas().then(() => {
         mostrarPeliculas();
-        loader.style.display = "none"; // Ocultar spinner después de 1 segundo
+        loader.style.display = "none"; // Oculto el spinner después de 1 segundo
       });
-    }, 1000); // Esperar 1 segundo antes de cargar las películas
+    }, 1000); // Espero 1 segundo antes de cargar las películas
 
     // Guardar nombre y usuario con datos desde el formulario
     let guardarUsuario = document.getElementById("btnGuardar");
@@ -205,7 +206,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
   if (document.body.id === "factura") {
-    console.log("hola"); // con esto verifico que se cargue el codigo de js en la  pagina "factura"
+    console.log("Estoy en la página factura"); // con esto verifico que se cargue el codigo de js en la  pagina "factura"
     const usuario = JSON.parse(sessionStorage.getItem("usuario")) || {};
     const compra = JSON.parse(sessionStorage.getItem("compraFinal")) || [];
     console.log(usuario);
@@ -236,7 +237,7 @@ document.addEventListener("DOMContentLoaded", function () {
       Swal.fire("¡Compra realizada!", "Gracias por tu compra", "success").then(
         () => {
           sessionStorage.clear();
-          localStorage.removeItem("carritoPeli"); // limpia el carrito guardado
+          localStorage.removeItem("carritoPeli"); // limpio el carrito guardado
           window.location.href = "../index.html";
         }
       );
@@ -252,7 +253,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }).then((result) => {
         if (result.isConfirmed) {
           sessionStorage.clear();
-          localStorage.removeItem("carritoPeli"); // limpia el carrito guardado
+          localStorage.removeItem("carritoPeli"); // limpio el carrito guardado
           window.location.href = "../index.html";
         }
       });

@@ -20,35 +20,42 @@
         <ul class="menu-listado">
             <li>Home</li>
             <li> <a href="./pages/factura.html"> Factura</a></li>
-            <li id="saludo"> <a href="#login"> Iniciar Sesión</a></li>
+            <li> <a href="#resumen"> Resumen de la Compra</a></li>
+            <li> <a href="#favoritos"> Favoritos</a></li>
+            <li id="saludo"> <a href="#login"> </a></li>
         </ul>
     </header>
     <main>
+        <section class="login" id="login">
+            <form class="formulario" id="formulario">
+                <p class="sesion">Iniciar Sesión</p>
+                <div class="grupo_input">
+                    <label class="fs-5">Nombre: </label>
+                    <input class="form-control  m-2" id="nombre" type="text" placeholder="Nombre" style="width: 12em;"
+                        required />
+                    <label class="fs-5">Apellido: </label>
+                    <input class="form-control  m-2" id="apellido" type="text" placeholder="Apellido"
+                        style="width: 12em;" required />
+                    <button class=" btnGuardar  mt-2" id="btnGuardar">Guardar</button>
+                </div>
+            </form>
+            <div class="frase">
+                <p>Tus entradas a un click de distancia</p>
+            </div>
+        </section>
+        <hr>
         <section class="cartelera">
             <h1>PELÍCULAS EN CARTELERA</h1>
             <div id="loaderPeliculas" class="loader">
                 <div class="spinner"></div>
             </div>
-
             <section class="carteleraPeliculas" id="carteleraPeliculas">
-
+                <!--  aquí se mostraran las tarjetas-->
             </section>
         </section>
         <hr>
-        <section class="contenedor">
+        <section class="contenedor" id="resumen">
 
-            <section class="login" id="login">
-                <h2>Iniciar Sesión</h2>
-                <form class="formulario" id="formulario">
-                    <label>Nombre: </label>
-                    <input class="form-control mt-2 m-3" id="nombre" type="text" placeholder="Nombre"
-                        style="width: 20em;" required />
-                    <label>Apellido: </label>
-                    <input class="form-control mt-2 m-3" id="apellido" type="text" placeholder="Apellido"
-                        style="width: 20em;" required />
-                    <button class=" btnGuardar  mt-2" id="btnGuardar">Guardar</button>
-                </form>
-            </section>
             <section class="resultado">
                 <h2 class="saludo ">Resumen de Compra</h2>
                 <h3 id="saludo"></h3>

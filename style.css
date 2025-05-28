@@ -11,7 +11,7 @@ body {
 
 h1 {
     font-size: 2rem;
-    /* color: darkgoldenrod; */
+    color: orangered;
 }
 
 h2 {
@@ -26,6 +26,11 @@ h3 {
 a {
     text-decoration: none;
     color: white;
+}
+
+.sesion {
+    font-size: 1.5rem;
+    color: rgb(230, 204, 11);
 }
 
 hr {
@@ -73,13 +78,12 @@ hr {
 }
 
 #saludo {
-
     color: rgb(230, 204, 11);
 }
 
 .cartelera {
     width: 97vw;
-    margin: 15px;
+    margin-top: 1.5em;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
@@ -92,7 +96,6 @@ hr {
     justify-content: space-evenly;
     align-items: center;
     flex-wrap: wrap;
-    margin: 50px;
 }
 
 .peliculas {
@@ -125,7 +128,9 @@ hr {
 }
 
 .btnGuardar {
-    width: 100px;
+    width: 80px;
+    height: 40px;
+    margin-left: 1em;
     background-color: rgb(24, 208, 24);
     color: white;
     border-radius: 10px;
@@ -146,7 +151,14 @@ hr {
     flex-direction: row;
 }
 
-.login,
+.login {
+    width: 99vw;
+    text-align: center;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1.5em
+}
+
 .resultado {
     width: 40vw;
     text-align: center;
@@ -156,14 +168,32 @@ hr {
 }
 
 .formulario {
-    width: 600px;
-    margin-left: 1.5em;
+    width: 55vw;
+    margin-left: 3em;
     padding: 0.5em;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
+    flex-direction: column;
     border: white 1px solid;
     border-radius: 5px;
+}
+
+.grupo_input {
+    width: 100%;
+    margin-left: 2em;
+    display: flex;
+    flex-direction: row;
+    justify-content: s;
+}
+
+.frase {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 45vw;
+    color: rgb(230, 204, 11);
+    font-size: 2em;
 }
 
 .formulario p {
@@ -250,6 +280,8 @@ footer {
     align-items: center;
     margin: 30px 0;
 }
+
+/**estilos del spinner*/
 
 .spinner {
     border: 6px solid, rgba(230, 204, 11, 0);
