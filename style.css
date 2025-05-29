@@ -81,6 +81,48 @@ hr {
     color: rgb(230, 204, 11);
 }
 
+.login {
+    width: 98vw;
+    text-align: center;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1.5em
+}
+
+.formulario {
+    width: 55vw;
+    margin-left: 3em;
+    padding: 0.5em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border: white 1px solid;
+    border-radius: 5px;
+}
+
+.grupo_input {
+    width: 100%;
+    margin-left: 2em;
+    display: flex;
+    flex-direction: row;
+    justify-content: s;
+
+}
+
+.formulario p {
+    font-size: 1.5em;
+}
+
+.frase {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 45vw;
+    color: rgb(230, 204, 11);
+    font-size: 2em;
+}
+
 .cartelera {
     width: 97vw;
     margin-top: 1.5em;
@@ -113,91 +155,31 @@ hr {
     height: auto;
     object-fit: cover;
     border-radius: 5px;
+    border: rgb(230, 204, 11), 4px solid;
 }
 
 .tituloPelicula {
     font-size: 1.5rem;
 }
 
-.btnComprar {
-    width: 100px;
-    background-color: orangered;
-    color: white;
-    border-radius: 10px;
-    font-size: 1.2rem;
-}
 
-.btnGuardar {
-    width: 80px;
-    height: 40px;
-    margin-left: 1em;
-    background-color: rgb(24, 208, 24);
-    color: white;
-    border-radius: 10px;
-    font-size: 1.2rem;
-    cursor: pointer;
-}
-
-.btnFinalizar {
-    width: 150px;
-    border-radius: 10px;
-    background-color: rgb(230, 204, 11);
-}
 
 .contenedor {
+    width: 98vw;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: row;
-}
-
-.login {
-    width: 99vw;
-    text-align: center;
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 1.5em
 }
 
 .resultado {
-    width: 40vw;
-    text-align: center;
+    width: 60%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-}
-
-.formulario {
-    width: 55vw;
-    margin-left: 3em;
-    padding: 0.5em;
-    display: flex;
-    justify-content: center;
     align-items: center;
-    flex-direction: column;
-    border: white 1px solid;
     border-radius: 5px;
-}
-
-.grupo_input {
-    width: 100%;
-    margin-left: 2em;
-    display: flex;
-    flex-direction: row;
-    justify-content: s;
-}
-
-.frase {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 45vw;
-    color: rgb(230, 204, 11);
-    font-size: 2em;
-}
-
-.formulario p {
-    font-size: 1.5em;
+    border: white, 1px solid;
 }
 
 .resumen {
@@ -240,6 +222,31 @@ hr {
     list-style: none;
 }
 
+.btnComprar {
+    width: 100px;
+    background-color: orangered;
+    color: white;
+    border-radius: 10px;
+    font-size: 1.2rem;
+}
+
+.btnGuardar {
+    width: 80px;
+    height: 40px;
+    margin-left: 1em;
+    background-color: rgb(24, 208, 24);
+    color: white;
+    border-radius: 10px;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+.btnFinalizar {
+    width: 150px;
+    border-radius: 10px;
+    background-color: rgb(230, 204, 11);
+}
+
 .btnPagar {
     width: 100px;
     background-color: green;
@@ -263,9 +270,6 @@ footer {
     align-items: center;
 
 }
-
-
-
 
 .loader {
     display: none;

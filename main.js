@@ -2,6 +2,8 @@
 
 document.addEventListener("DOMContentLoaded", function () {
   if (document.body.id === "index") {
+    //con esto aseguro estar trabajando en el index
+
     // Variable Global de pelicula para utilizarla en cualquir parte del código
     let peliculasGuardadas = []; // Almacenar las películas de la API
 
@@ -88,7 +90,6 @@ document.addEventListener("DOMContentLoaded", function () {
         tarjetaPeliculas += `<div class="peliculas">
   <img src= "https://image.tmdb.org/t/p/w500/${pelicula.poster_path}" alt="${pelicula.title}"> 
   <p class="tituloPelicula mt-2">${pelicula.title}</p>
-  <span class="estrella" data-id="${pelicula.id}" style="cursor:pointer;">⭐</span>
   <button class="btnComprar ms-5" data-index="${index}">Comprar</button>
 </div>`;
       });
@@ -161,28 +162,51 @@ document.addEventListener("DOMContentLoaded", function () {
           const index = parseInt(e.target.getAttribute("data-index"));
           const peliSeleccionada = peliculasGuardadas[index];
 
-          if (peliSeleccionada) {
-            carritoPeli.push(peliSeleccionada); //voy agregando peliculas al carrito
-            actualizarResumen();
+          // Buscar si la película ya está en el carrito
+          const peliEnCarrito = carritoPeli.find(
+            (p) => p.id === peliSeleccionada.id
+          );
+
+          if (peliEnCarrito) {
+            peliEnCarrito.cantidad += 1; // Si ya está, aumento la cantidad
+          } else {
+            peliSeleccionada.cantidad = 1; // Si no está, le agrego cantidad
+            carritoPeli.push(peliSeleccionada); // Y la meto al carrito
           }
+
+          actualizarResumen();
+
+          Swal.fire({
+            //indico al usuario que agrego la peli al carrito
+            icon: "success",
+            title: "¡Película agregada!",
+            text: `"${peliSeleccionada.title}" se añadió al carrito`,
+            timer: 1500,
+            showConfirmButton: false,
+          });
         }
       });
-    console.log(carritoPeli); //verifico que el carrito se esté llenando
 
     // Mostrar resumen de compra optimizada con metodos como reduce y map
     function actualizarResumen() {
       const total = carritoPeli.reduce(
-        //el reduce sustituye el ciclo for. la const total guardará la suma de los precios
-        (acumulador, pelicula) => acumulador + pelicula.precio,
+        // con el reduce calculo el total de la compra
+        (acumulador, pelicula) =>
+          acumulador + pelicula.precio * pelicula.cantidad,
         0
       );
+
       console.log(total); //verifico que el total se esté calculando
       const listaPeliculas = carritoPeli
         .map(
           (
-            pelicula //el map sustituye el ciclo for. el map devuelve un nuevo array
+            pelicula //el map "sustituye el ciclo for" recorre el array. el map devuelve un nuevo array
           ) =>
-            `<li> Titulo: ${pelicula.title} - Horario: ${pelicula.hora} - Valor: ${pelicula.precio}</li>`
+            `<li> Título: ${pelicula.title} - Horario: ${
+              pelicula.hora
+            } - Cantidad: ${pelicula.cantidad} - Subtotal: $${
+              pelicula.precio * pelicula.cantidad
+            }</li>`
         )
         .join(""); // el join une los elementos del array en un string
       const resumenHTML = ` <div class="resumen">
@@ -207,6 +231,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
   if (document.body.id === "factura") {
     console.log("Estoy en la página factura"); // con esto verifico que se cargue el codigo de js en la  pagina "factura"
+
     const usuario = JSON.parse(sessionStorage.getItem("usuario")) || {};
     const compra = JSON.parse(sessionStorage.getItem("compraFinal")) || [];
     console.log(usuario);
@@ -219,10 +244,16 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
     const listaHTML = compra // creo otro array con los datos de la peliculas en el carrito
-      .map((peli) => `<li>${peli.title} - ${peli.hora} - $${peli.precio}</li>`)
+      .map(
+        (peli) =>
+          `<li>${peli.title} - ${peli.hora} - $${peli.precio} - Boletos ${peli.cantidad}</li>`
+      )
       .join("");
 
-    const total = compra.reduce((acc, peli) => acc + peli.precio, 0); // calculo el total de la compra
+    const total = compra.reduce(
+      (acc, peli) => acc + peli.precio * peli.cantidad,
+      0
+    ); // calculo el total de la compra
     ticket.innerHTML = `
     <h2>Ticket</h2>
     <p>Nombre: ${usuario.nombre} ${usuario.apellido}</p>
@@ -260,3 +291,4 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 });
+// para optimizar el proyecto, crear la sección favoritos, aagregar el boton para eliminar peliculas,
